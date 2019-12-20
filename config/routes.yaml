@@ -1,0 +1,4 @@
+domains:
+  resource: 'routes/product.yaml'
+main:
+  resource: 'routes/main.yaml'
