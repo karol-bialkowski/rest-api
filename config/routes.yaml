@@ -1,4 +1,7 @@
 domains:
-  resource: 'routes/product.yaml'
+  # loads routes from the YAML or XML files found in some bundle directory
+  resource: '../src/Shop/Infrastructure/Resources/routes/'
+  type:     directory
+
 main:
   resource: 'routes/main.yaml'

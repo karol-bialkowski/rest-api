@@ -1,0 +1,18 @@
+App\Shop\Domain\Product\Entity\Product:
+  type: entity
+  table: products
+  repositoryClass: App\Shop\Infrastructure\Product\ProductRepository
+  id:
+    id:
+      type: integer
+      generator: { strategy: AUTO }
+  fields:
+    uuid:
+      type: guid
+      generator: { strategy: UUID }
+    title:
+      type: string
+      length: 100
+      unique: true
+    price:
+      type: integer

@@ -1,0 +1,21 @@
+product.index:
+  path: /products
+  methods: GET
+  controller: App\Shop\Infrastructure\Http\Controllers\ProductController::index
+product.create:
+  path: /products
+  methods: POST
+  controller: App\Shop\Infrastructure\Http\Controllers\ProductController::create
+product.update:
+  path: /products/{id}
+  methods: PUT
+  controller: App\Shop\Infrastructure\Http\Controllers\ProductController::update
+  requirements:
+    id: '\d+'
+product.remove:
+  path: /products/{id}
+  methods: DELETE
+  controller: App\Shop\Infrastructure\Http\Controllers\ProductController::delete
+  requirements:
+    id: '\d+'
+
