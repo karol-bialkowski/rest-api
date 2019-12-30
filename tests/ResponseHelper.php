@@ -16,4 +16,10 @@ trait ResponseHelper
         return json_decode($response->getContent())->message;
     }
 
+    public function getProductPayload(Response $response)
+    {
+        //TODO: move this to separate class representation, more usefully and handy
+        return json_decode($response->getContent())->payload;
+    }
+
 }

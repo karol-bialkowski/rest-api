@@ -39,7 +39,5 @@ class BasicResponse implements BaseResponse
             $this->http_code,
             ['Content-Type' => 'application/json']
         );
-
-
     }
 }

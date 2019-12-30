@@ -35,4 +35,26 @@ class DoctrineProducts
         $this->entityManager->remove($product);
         $this->entityManager->flush();
     }
+
+    /**
+     * @param string $uuid
+     * @param array $columns_to_update
+     */
+    public function update(string $uuid, array $columns_to_update)
+    {
+        $update = $this->entityManager->createQueryBuilder()
+            ->update('App:Product\Entity\Product', 'p')
+            ->where('p.uuid = :uuid')
+            ->setParameter('uuid', $uuid);
+
+        foreach ($columns_to_update as $key => $value) {
+            if ($value !== null) {
+                $update->set('p.' . $key, ':' . $key)
+                    ->setParameter($key, $value);
+            }
+        }
+
+        $update->getQuery()
+            ->execute();
+    }
 }

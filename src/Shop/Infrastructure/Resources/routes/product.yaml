@@ -11,7 +11,7 @@ product.update:
   methods: PUT
   controller: App\Shop\Infrastructure\Http\Controllers\ProductController::update
   requirements:
-    id: '\d+'
+    id: '([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}'
 product.remove:
   path: /products/{id}
   methods: DELETE

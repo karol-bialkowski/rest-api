@@ -15,10 +15,6 @@ abstract class BaseController extends AbstractController
     use HandleTrait;
 
     /**
-     * @var ProductQuery
-     */
-    protected ProductQuery $productQuery;
-    /**
      * @var DbalProductQuery
      */
     protected DbalProductQuery $dbalProductQuery;
@@ -26,7 +22,6 @@ abstract class BaseController extends AbstractController
     public function __construct(MessageBusInterface $messageBus, DbalProductQuery $dbalProductQuery)
     {
         $this->messageBus = $messageBus;
-//        $this->productQuery = $productQuery;
         $this->dbalProductQuery = $dbalProductQuery;
     }
 

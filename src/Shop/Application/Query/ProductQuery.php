@@ -7,4 +7,6 @@ namespace App\Shop\Application\Query;
 interface ProductQuery
 {
     public function isUniqueTitle(string $title);
+
+    public function getByTitle(string $title);
 }

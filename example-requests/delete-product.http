@@ -1,4 +1,4 @@
-DELETE http://127.0.0.1/products/98a1491d-5598-4e4a-a73b-67edebf03dff
+DELETE http://127.0.0.1/products/b4295616-092a-46d8-965d-b3b7395efd1f
 Accept: application/json
 Cache-Control: no-cache
 Content-Type: application/json

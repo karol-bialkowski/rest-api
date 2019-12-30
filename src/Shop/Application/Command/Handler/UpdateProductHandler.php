@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Shop\Application\Command\Handler;
 
-use App\Shop\Application\Command\DeleteProduct;
-use App\Shop\Domain\Product\Entity\Product;
+use App\Shop\Application\Command\UpdateProduct;
 use App\Shop\Infrastructure\Resources\doctrine\DoctrineProducts;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-class DeleteProductHandler implements MessageHandlerInterface
+class UpdateProductHandler implements MessageHandlerInterface
 {
 
     /**
@@ -33,17 +32,12 @@ class DeleteProductHandler implements MessageHandlerInterface
         $this->products = new DoctrineProducts($this->entityManager); //TODO: refactor this to more sexy
     }
 
-
     /**
-     * @param DeleteProduct $deleteProduct
-     * @throws \Doctrine\ORM\ORMException
+     * @param UpdateProduct $updateProduct
      */
-    public function __invoke(DeleteProduct $deleteProduct): void
+    public function __invoke(UpdateProduct $updateProduct): void
     {
-        $product = $this->entityManager->getRepository(Product::class)->findOneBy(['uuid' => $deleteProduct->uuid]);
-
-        $this->entityManager->remove($product);
-        $this->entityManager->flush();
+        $sql = $this->products->update($updateProduct->uuid, $updateProduct->columns_to_update);
     }
 
 }

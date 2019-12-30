@@ -40,7 +40,11 @@ class ProductException extends \Exception
 
     public static function wrongPriceRange(?int $price)
     {
-        return new self(sprintf('Wrong price range value. Max value is '.Product::MAX_PRICE.', given price: %s', $price));
+        return new self(sprintf('Wrong price range value. Max value is ' . Product::MAX_PRICE . ', given price: %s', $price));
+    }
 
+    public static function missingAtLeastProductTitleOrPrice()
+    {
+        return new self(sprintf('Title or price is required to update product details.'));
     }
 }
