@@ -12,6 +12,12 @@ class CreateNewProduct
     private string $title;
     private int $price;
 
+    /**
+     * CreateNewProduct constructor.
+     * @param string $title
+     * @param int $price
+     * @throws ProductException
+     */
     public function __construct(string $title, int $price)
     {
 
@@ -20,7 +26,7 @@ class CreateNewProduct
             throw ProductException::wrongProductTitle($title);
         }
 
-        if($price === 0 || $price === null || $price > Product::MAX_PRICE) {
+        if ($price === 0 || $price === null || $price > Product::MAX_PRICE) {
             throw ProductException::wrongPriceRange($price);
         }
 
@@ -29,11 +35,17 @@ class CreateNewProduct
     }
 
 
+    /**
+     * @return string
+     */
     public function title(): string
     {
         return $this->title;
     }
 
+    /**
+     * @return int
+     */
     public function price(): int
     {
         return $this->price;

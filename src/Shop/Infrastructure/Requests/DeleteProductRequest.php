@@ -10,11 +10,19 @@ use App\Shop\Infrastructure\Helpers\IdsHelper;
 class DeleteProductRequest extends ApiRequest
 {
 
+    public string $uuid;
+
+    /**
+     * @return bool
+     */
     public function validate()
     {
-        if(!IdsHelper::isCorrectUuid($this->request->get('id'))) {
+        if (!IdsHelper::isCorrectUuid($this->request->get('id'))) {
             throw ApiException::wrongUuidStructure();
         }
+
+        $this->uuid = $this->request->get('id');
+
         return true;
     }
 

@@ -6,8 +6,10 @@ namespace App\Shop\Infrastructure\Http\Controllers;
 
 
 use App\Shop\Application\Command\CreateNewProduct;
+use App\Shop\Application\Command\DeleteProduct;
 use App\Shop\Application\Exceptions\ApiException;
 use App\Shop\Application\Exceptions\ProductException;
+use App\Shop\Application\Exceptions\ProductNotFoundException;
 use App\Shop\Infrastructure\Http\ApiResponseRepresentations\BasicResponse;
 use App\Shop\Infrastructure\Requests\CreateProductRequest;
 use App\Shop\Infrastructure\Requests\DeleteProductRequest;
@@ -64,7 +66,23 @@ class ProductController extends BaseController
      */
     public function delete(Request $request)
     {
-        return new JsonResponse('deleted '.$request->get('id'));
+
+        $deleteProductRequest = new DeleteProductRequest($request);
+
+        try {
+            $deleteProductRequest->validate();
+            $this->dbalProductQuery->existProductUuid($deleteProductRequest->uuid);
+        } catch (ProductNotFoundException $exception) {
+            return (new BasicResponse(404, null, $exception->getMessage()))->response();
+        } catch (\Exception $exception) {
+            //TODO: log some error to logger ( sentry etc )
+            return (new BasicResponse(400, null, 'Whoops looks like something went wrong.'))->response();
+        }
+
+        $command = new DeleteProduct($deleteProductRequest->uuid);
+        $this->handleMessage($command);
+
+        return (new BasicResponse(200, null, 'Product with uuid: ' . $request->get('id') . ' has been removed.'))->response();
     }
 
 }
