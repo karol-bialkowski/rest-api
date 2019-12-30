@@ -10,6 +10,7 @@ use App\Shop\Application\Exceptions\ApiException;
 use App\Shop\Application\Exceptions\ProductException;
 use App\Shop\Infrastructure\Http\ApiResponseRepresentations\BasicResponse;
 use App\Shop\Infrastructure\Requests\CreateProductRequest;
+use App\Shop\Infrastructure\Requests\DeleteProductRequest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -63,7 +64,7 @@ class ProductController extends BaseController
      */
     public function delete(Request $request)
     {
-        return new JsonResponse('deleted');
+        return new JsonResponse('deleted '.$request->get('id'));
     }
 
 }

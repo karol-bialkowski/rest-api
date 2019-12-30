@@ -50,6 +50,8 @@ class CreateProductRequest extends ApiRequest
 
         $this->title = $this->content['title'];
         $this->price = (int)$this->content['price'];
+
+        return true;
     }
 
 }

@@ -1,5 +1,6 @@
 #todo
-- [ ] 404 and other support pages
-- [ ] doctrine and security config move to domain directory 
-- [ ] assert validation request
+- [ ] functional test and allow remove product
+- [ ] docs 
+- [ ] 404 and other support pages 
 - [ ] price integer etc..
+- [ ] fixtures

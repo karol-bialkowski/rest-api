@@ -17,5 +17,4 @@ product.remove:
   methods: DELETE
   controller: App\Shop\Infrastructure\Http\Controllers\ProductController::delete
   requirements:
-    id: '\d+'
-
+    id: '([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}'

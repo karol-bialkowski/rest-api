@@ -35,7 +35,7 @@ class CreateNewProductRequestTest extends TestCase
         $this->expectExceptionObject(ProductException::missingKey('price'));
 
         $this->mockRequest
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('getContent')
             ->will($this->returnValue('{"title":"Another product other 2"}'));
 
@@ -47,7 +47,7 @@ class CreateNewProductRequestTest extends TestCase
     {
         $this->expectExceptionObject(ProductException::missingKey('title'));
         $this->mockRequest
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('getContent')
             ->will($this->returnValue('{"price": "12"}'));
 
@@ -60,7 +60,7 @@ class CreateNewProductRequestTest extends TestCase
         $productTitle = '.';
         $this->expectExceptionObject(ProductException::wrongProductTitle($productTitle));
         $this->mockRequest
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('getContent')
             ->will($this->returnValue('{"title":"' . $productTitle . '", "price": "11"}'));
 
@@ -79,7 +79,7 @@ class CreateNewProductRequestTest extends TestCase
 
         $this->expectExceptionObject(ProductException::wrongProductTitle($longTitle));
         $this->mockRequest
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('getContent')
             ->will($this->returnValue($tooLongProductTitle));
 
@@ -98,7 +98,7 @@ class CreateNewProductRequestTest extends TestCase
 
         $this->expectExceptionObject(ProductException::wrongPriceStructure($wrongPrice));
         $this->mockRequest
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('getContent')
             ->will($this->returnValue($wrongPriceRequest));
 
@@ -118,7 +118,7 @@ class CreateNewProductRequestTest extends TestCase
 
         $this->expectExceptionObject(ProductException::wrongPriceRange($wrongPrice));
         $this->mockRequest
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('getContent')
             ->will($this->returnValue($wrongPriceRequest));
 
@@ -135,11 +135,11 @@ class CreateNewProductRequestTest extends TestCase
         ]);
 
         $this->mockRequest
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('getContent')
             ->will($this->returnValue($wrongPrice));
 
         $createProductRequest = new CreateProductRequest($this->mockRequest);
-        $createProductRequest->validate();
+        $this->assertTrue($createProductRequest->validate());
     }
 }
