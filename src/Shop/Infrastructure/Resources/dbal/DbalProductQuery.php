@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Shop\Infrastructure\Resources\dbal;
 
-use App\Application\Exceptions\ProductException;
+use App\Shop\Application\Exceptions\ProductException;
 use App\Shop\Application\Query\ProductQuery;
 use Doctrine\DBAL\Connection;
 

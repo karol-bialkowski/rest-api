@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Shop\Infrastructure\Http\Controllers;
 
 
-use App\Application\Exceptions\ProductException;
 use App\Shop\Application\Command\CreateNewProduct;
-use App\Shop\Application\Command\IsUniqueProductName;
+use App\Shop\Application\Exceptions\ApiException;
+use App\Shop\Application\Exceptions\ProductException;
 use App\Shop\Infrastructure\Http\ApiResponseRepresentations\BasicResponse;
 use App\Shop\Infrastructure\Requests\CreateProductRequest;
-use PHPUnit\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +29,7 @@ class ProductController extends BaseController
     /**
      * @param Request $request
      * @return Response
+     * @throws ProductException
      */
     public function create(Request $request)
     {
@@ -38,7 +38,7 @@ class ProductController extends BaseController
         try {
             $createProductRequest->validate();
             $this->dbalProductQuery->isUniqueTitle($createProductRequest->title);
-        } catch (ProductException | \Exception $e) {
+        } catch (ProductException | ApiException | \Exception $e) {
             return (new BasicResponse(400, null, $e->getMessage()))->response();
         }
 

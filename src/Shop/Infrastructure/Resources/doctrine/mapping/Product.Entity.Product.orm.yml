@@ -1,7 +1,7 @@
 App\Shop\Domain\Product\Entity\Product:
   type: entity
   table: products
-  repositoryClass: App\Shop\Infrastructure\Product\ProductRepository
+  repositoryClass: App\Shop\Infrastructure\Repository\ProductRepository
   id:
     id:
       type: integer
