@@ -1,0 +1,87 @@
+@import "reset.css";
+@import "_colors.scss";
+@import "_grid.scss";
+
+body, html {
+  padding: 0;
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+  background-color: $background;
+}
+
+@mixin transition {
+  transition: all 300ms;
+}
+
+@mixin animation_underline {
+  position: relative;
+
+  &:hover::before {
+    width: 100%;
+  }
+
+  &::before {
+    position: absolute;
+    bottom: -6px;
+    width: 0px;
+    height: 1px;
+    background-color: #FFF;
+    content: " ";
+    @include transition();
+  }
+}
+
+.header {
+  position: fixed;
+  z-index: 500;
+  display: flex;
+  background-color: $primary;
+  color: #FFF;
+  width: 100%;
+  padding: 15px 0px;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+
+  &__column {
+    padding: 0 10px;
+  }
+
+  &--logo {
+    font-size: 20px;
+    font-weight: 300;
+    color: #FFF;
+    padding-right: 0;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    @include animation_underline();
+
+  }
+
+  &--description {
+    font-size: 11px;
+  }
+}
+
+.article {
+  color: $primary_text;
+  font-weight: 300;
+  padding-top: 100px;
+  text-align: center;
+  max-width: 500px;
+  margin: auto;
+
+  h1 {
+    color: $primary_text;
+    font-size: 35px;
+    padding-bottom: 0.5em;
+  }
+
+  &__lead {
+    margin-bottom: 20px;
+  }
+}

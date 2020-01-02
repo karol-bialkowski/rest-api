@@ -13,19 +13,20 @@ class HomeController extends AbstractController
 
     public function index()
     {
-        return new Response('strona glowna');
+        return $this->render('homepage.html.twig');
     }
 
-    /**
-     * @return Response
-     */
-    public function error()
-    {
-        return (new BasicResponse(
-            404,
-            null,
-            'Page not found. Check out github documentation.'
-        ))->response();
-    }
+//    /**
+//     * @return Response
+//     */
+//    public function error()
+//    {
+//
+//        return (new BasicResponse(
+//            404,
+//            null,
+//            'Page not found. Check out github documentation.'
+//        ))->response();
+//    }
 
 }
