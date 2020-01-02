@@ -2,6 +2,7 @@
 
 namespace App\Tests\Functional;
 
+use App\Shop\Domain\Product\Entity\Product;
 use App\Tests\ResponseHelper;
 use Faker\Factory;
 use Faker\Generator;
@@ -71,15 +72,26 @@ class DeleteProductTest extends WebTestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('Product has been created', $this->getDecodedMessage($response));
 
-        //TODO: implement receive uuid breakpoint, declared temporary
-        $uuid = 'd3d7abc9-3233-4821-8793-c43ba99ae8ea';
-
-        $this->client->request('DELETE', 'products/' . $uuid);
+        $this->client->disableReboot();
+        $this->client->request('POST', 'products', [], [],
+            ['CONTENT_TYPE' => 'application/json'],
+            '{"title":"Random-Product-Test", "price": "123"}'
+        );
         $response = $this->client->getResponse();
+        $product_created = json_decode($response->getContent())->payload;
 
+        //create product and verify
+        $findProduct = $this->em->getRepository(Product::class)->findBy(['title' => $product_created->title])[0];
+        $this->assertEquals('Random-Product-Test', $findProduct->getTitle());
+
+        //delete product
+        $this->client->request('DELETE', 'products/' . $product_created->uuid);
+        $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('Product with uuid: ' . $uuid . ' has been removed.', $this->getDecodedMessage($response));
+        $this->assertEquals('Product with uuid: ' . $product_created->uuid . ' has been removed.', $this->getDecodedMessage($response));
 
-        //TODO: implement verify if product is delected successfully
+        //verify is product has been deleted
+        $findProduct = $this->em->getRepository(Product::class)->findBy(['title' => $product_created->title]);
+        $this->assertEquals(0, count($findProduct));
     }
 }
