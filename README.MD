@@ -1,6 +1,5 @@
 #todo
-- [ ] functional test and allow remove product
 - [ ] docs 
-- [ ] 404 and other support pages 
 - [ ] price integer etc..
-- [ ] fixtures
+- [x] fixtures - sudo docker-compose exec php php bin/console doctrine:fixtures:load
+
