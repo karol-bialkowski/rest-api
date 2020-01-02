@@ -3,6 +3,6 @@ Accept: application/json
 Cache-Control: no-cache
 Content-Type: application/json
 
-{"title":"Another product 1234","price":"556"}
+{"title":"Another product--","price":"556"}
 
 ###

@@ -11,11 +11,14 @@ use App\Shop\Application\Command\UpdateProduct;
 use App\Shop\Application\Exceptions\ApiException;
 use App\Shop\Application\Exceptions\ProductException;
 use App\Shop\Application\Exceptions\ProductNotFoundException;
+use App\Shop\Domain\Product\DTO\ProductPagination;
 use App\Shop\Infrastructure\Http\ApiResponseRepresentations\BasicResponse;
 use App\Shop\Infrastructure\Http\ApiResponseRepresentations\ProductApiRepresentation;
 use App\Shop\Infrastructure\Requests\CreateProductRequest;
 use App\Shop\Infrastructure\Requests\DeleteProductRequest;
 use App\Shop\Infrastructure\Requests\UpdateProductRequest;
+use App\Shop\Infrastructure\Resources\dbal\ProductsPaginator;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -29,6 +32,26 @@ class ProductController extends BaseController
     public function index(Request $request)
     {
         return (new BasicResponse(200, null, 'listing'))->response();
+    }
+
+    /**
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return Response
+     */
+    public function listing(Request $request, PaginatorInterface $paginator)
+    {
+        $products = $this->dbalProductQuery->getAllProducts();
+
+        $pagination = $paginator->paginate(
+            $products,
+            $request->query->getInt('page', 1),
+            ProductPagination::PRODUCTS_PER_PAGE
+        );
+
+        $payloadProducts = new ProductPagination($pagination);
+
+        return (new BasicResponse(200, $payloadProducts->getApiPayload(), ''))->response();
     }
 
     /**

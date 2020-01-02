@@ -9,6 +9,7 @@ use App\Shop\Application\Exceptions\ProductNotFoundException;
 use App\Shop\Application\Query\ProductQuery;
 use App\Shop\Application\Query\ProductView;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Query\QueryBuilder;
 
 final class DbalProductQuery implements ProductQuery
 {
@@ -47,7 +48,7 @@ final class DbalProductQuery implements ProductQuery
     public function getByTitle(string $title): ProductView
     {
         $queryBuilder = $this->connection->createQueryBuilder();
-        $queryBuilder->select(['p.title', 'p.price', 'p.uuid', 'p.id'])
+        $queryBuilder->select(['p.title', 'p.price', 'p.uuid'])
             ->from('products', 'p')
             ->where('p.title = :productTitle')
             ->setParameter('productTitle', $title);
@@ -55,7 +56,7 @@ final class DbalProductQuery implements ProductQuery
         $result = $queryBuilder->execute()->fetchAll();
         $result = $result[0];
 
-        return new ProductView($result['uuid'], $result['title'], $result['price'], $result['id']);
+        return new ProductView($result['uuid'], $result['title'], $result['price']);
     }
 
     /**
@@ -96,5 +97,16 @@ final class DbalProductQuery implements ProductQuery
         $result = $result[0];
 
         return new ProductView($result['uuid'], $result['title'], $result['price']);
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    public function getAllProducts(): QueryBuilder
+    {
+        return $this->connection->createQueryBuilder()
+            ->select(['p.title', 'p.price', 'p.uuid'])
+            ->from('products', 'p')
+            ->orderBy('p.id', 'DESC');
     }
 }

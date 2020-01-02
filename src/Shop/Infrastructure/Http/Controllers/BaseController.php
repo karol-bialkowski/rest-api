@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Shop\Infrastructure\Http\Controllers;
 
-use App\Shop\Application\Query\ProductQuery;
 use App\Shop\Infrastructure\Resources\dbal\DbalProductQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Messenger\HandleTrait;

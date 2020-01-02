@@ -1,7 +1,7 @@
-product.index:
+product.listing:
   path: /products
   methods: GET
-  controller: App\Shop\Infrastructure\Http\Controllers\ProductController::index
+  controller: App\Shop\Infrastructure\Http\Controllers\ProductController::listing
 product.create:
   path: /products
   methods: POST
