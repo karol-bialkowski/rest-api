@@ -2,6 +2,7 @@
 
 namespace App\Shop\Domain\Product\DTO;
 
+use App\Shop\Application\Query\ProductView;
 use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
 
 class ProductPagination
@@ -29,8 +30,12 @@ class ProductPagination
         $nextPage = (($currentPageNumber + 1) > $totalPages) ? $totalPages : $currentPageNumber + 1;
         $prevPage = (($currentPageNumber - 1) < 1) ? 1 : $currentPageNumber - 1;
 
+        $products = [];
+        foreach($this->pagination->getItems() as $product) {
+            $products[] = (new ProductView($product['uuid'], $product['title'], $product['price']))->toArrayResponse();
+        }
         return [
-            'products' => $this->pagination->getItems(),
+            'products' => $products,
             'paginator' => [
                 'currentPageNumber' => $currentPageNumber,
                 'totalPages' => $totalPages,
