@@ -407,6 +407,11 @@ body, html {
     text-decoration: none;
 }
 
+.header--logo:hover {
+    color: #FFF;
+    text-decoration: none;
+}
+
 .header--logo:hover::before {
     width: 100%;
 }

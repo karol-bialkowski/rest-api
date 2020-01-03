@@ -1,4 +1,8 @@
 import React from 'react';
+import ListingForm from "./components/ListingForm";
+import Loading from "./components/Loading";
+import ProductListing from "./components/ProductListing";
+import InsertForm from "./components/InsertForm";
 
 class Form extends React.Component {
 
@@ -25,6 +29,43 @@ class Form extends React.Component {
             });
     }
 
+    insert = () => {
+        fetch('/products', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: this.state.productTitle,
+                price: this.state.productPrice,
+            })
+        })
+            .then((res) => {
+                return res.json()
+            })
+            .then((json) => {
+
+                if (json.message != '') {
+                    alert(json.message);
+                    this.setState({
+                        loading: false
+                    })
+                }
+
+                this.setState({
+                    response: json.payload,
+                    loading: false
+                })
+            })
+            .catch(function (error) {
+                alert('An error occured! Show console log for details.');
+                this.setState({
+                    loading: false
+                })
+            });
+    }
+
     sendRequest = () => {
 
         this.setState({
@@ -36,18 +77,15 @@ class Form extends React.Component {
         }
 
         if (this.state.endpoint === 'insert') {
-            console.log(
-                'insert',
-                this.state.productTitle,
-                this.state.productPrice
-            );
+            this.insert();
         }
 
     }
 
     changeEndpoint = (event) => {
         this.setState({
-            endpoint: event.target.value
+            endpoint: event.target.value,
+            response: null
         })
     }
 
@@ -84,35 +122,22 @@ class Form extends React.Component {
 
         if (this.state.endpoint === 'listing') {
             return (
-                <div>
-                    <div className="form-group">
-                        <label htmlFor="page">Select page number</label>
-                        <input
-                            type="number"
-                            min="1"
-                            className="form-control"
-                            id="page" value={this.state.pageNumber}
-                            onChange={this.changePageNumber}/>
-                    </div>
-                </div>
-
+                <ListingForm
+                    pageNumber={this.state.pageNumber}
+                    changePageNumber={this.changePageNumber}
+                />
             )
         }
 
         if (this.state.endpoint === 'insert') {
-
             return (
-                <div>
-                    <label>Title</label>
-                    <input type="text" onChange={this.changeProductTitle} maxLength="100" className="form-control"/>
-                    <small class="form-text text-muted">Typed: {this.state.productTitle}</small> <br/>
-
-                    <label>Price</label>
-                    <input type="number" onChange={this.changeProductPrice} maxLength="5" className="form-control"/>
-                    <small class="form-text text-muted">Allowed only cents, instead $2.99 fill 299. </small> <br/><br/>
-                </div>
+                <InsertForm
+                    changeProductTitle={this.changeProductTitle}
+                    changeProductPrice={this.changeProductPrice}
+                    productTitle={this.state.productTitle}
+                    productPrice={this.state.productPrice}
+                />
             )
-
         }
 
     }
@@ -121,9 +146,7 @@ class Form extends React.Component {
 
         if (this.state.loading) {
             return (
-                <div>
-                    Loading...
-                </div>
+                <Loading loading={this.state.loading}/>
             )
         }
 
@@ -136,9 +159,14 @@ class Form extends React.Component {
         if (this.state.endpoint === 'listing') {
             return (
                 <ul>
-                    {this.state.response.map((product) =>
-                        <li>{product.title}, <strong>{product.price.format.usd}</strong></li>)}
+                    {this.state.response.map((product) => <ProductListing product={product}/>)}
                 </ul>
+            )
+        }
+
+        if (this.state.endpoint === 'insert') {
+            return (
+                <div>Added product has uuid: <strong>{this.state.response.uuid}</strong></div>
             )
         }
     }
@@ -150,7 +178,14 @@ class Form extends React.Component {
             {this.selectEndpoint()}
             {this.displayCorrectForm()}
 
-            <button type="button" onClick={this.sendRequest} class="btn btn-primary">Go >></button>
+            <button
+                type="button"
+                onClick={this.sendRequest}
+                className="btn btn-primary"
+                disabled={this.state.loading}
+            >
+                Go >>
+            </button>
 
             <br/><br/>
             <div id="response">{this.parsedResponse()}</div>

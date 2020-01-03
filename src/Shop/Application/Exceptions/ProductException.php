@@ -33,12 +33,12 @@ class ProductException extends \Exception
         return new self(sprintf('Title length must be between ' . Product::MIN_LENGTH_TITLE . ' and ' . Product::MAX_LENGTH_TITLE, $title));
     }
 
-    public static function wrongPriceStructure(string $price)
+    public static function wrongPriceStructure($price)
     {
         return new self(sprintf('Wrong price value. Only digits is allowed. Given: %s', $price));
     }
 
-    public static function wrongPriceRange(?int $price)
+    public static function wrongPriceRange($price)
     {
         return new self(sprintf('Wrong price range value. Max value is ' . Product::MAX_PRICE . ', given price: %s', $price));
     }
