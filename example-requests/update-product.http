@@ -1,9 +1,11 @@
-PUT http://127.0.0.1/products/2ba49e68-8a3e-406d-91ca-548753017df0
+PUT http://127.0.0.1/products/35208bec-33b6-4fcd-8a1b-8b6c5d9ca1af
 Accept: application/json
 Cache-Control: no-cache
 Content-Type: application/json
 
-{"title":"Another product ##"}
+{
+  "title": "Another product ##"
+}
 
 ###
 //{"price":"11"}
