@@ -14,6 +14,7 @@ This is an example app based on Symfony 4.4. All requests to change/update/creat
  - [ ] Swagger api documentation
  - [ ] Redux components to font-end app
  - [ ] Refactor App.js to different scripts, DRY
+ - [ ] JWT auth
  - [ ] git hooks
  - [ ] support string price and parse to <int>
 
