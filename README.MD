@@ -1,3 +1,6 @@
+
+&#11088;&#127913;&#128576;
+
 # Example rest api app
 
 This is an example app based on Symfony 4.4. All requests to change/update/create/listing are according to CQRS commands and structure simply based on DDD. Scripts are written on TDD with the following SOLID rules. 
